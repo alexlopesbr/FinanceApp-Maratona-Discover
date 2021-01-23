@@ -2,6 +2,8 @@
 :root {
   --dark-blue: #363f5f;
   --green: #49aa26;
+  --light-green: #3dd705;
+  --red: #e92929;
 }
 
 * {
@@ -47,17 +49,52 @@ h2 {
 
 /* LINKS & BUTTONS ================================*/
 a {
-  color: #49aa26;
+  color: var(--green);
   text-decoration: none;
 }
 
 a:hover {
-  color: #3dd705;
+  color: var(--light-green);
 }
 
 .button.new {
   display: inline-block;
   margin-bottom: 0.8rem;
+}
+
+.button.cancel {
+  color: var(--red);
+  border: solid 2px var(--red);
+  border-radius: 0.25rem;
+
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0.6;
+}
+
+.button.cancel:hover {
+  opacity: 1;
+}
+
+button {
+  width: 100%;
+  padding: 0;
+  height: 50px;
+  border: none;
+  border-radius: 0.25rem;
+
+  color: white;
+  background: var(--green);
+
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--light-green);
 }
 
 /* HEADER ================================*/
@@ -110,7 +147,7 @@ header {
 }
 
 .card.total {
-  background: #49aa26;
+  background: var(--green);
   color: white;
 }
 
@@ -173,6 +210,72 @@ td.income {
 
 td.expense {
   color: #e92929;
+}
+
+/* MODAL ================================*/
+.modal-overlay {
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+  visibility: hidden;
+
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: #f0f2f5;
+  padding: 2.4rem;
+  position: relative;
+}
+
+/* FOOTER ================================*/
+#form {
+  max-width: 500px;
+}
+
+#form h2 {
+  margin-top: 0;
+}
+
+.input-group input {
+  border: none;
+  border-radius: 0.2rem;
+
+  padding: 0.8rem;
+
+  width: 100%;
+}
+
+.input-group {
+  margin-top: 0.8rem;
+}
+
+.input-group small {
+  opacity: 0.4;
+}
+
+.input-group.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-group.actions .button,
+.input-group.actions button {
+  width: 48%;
 }
 
 /* FOOTER ================================*/
