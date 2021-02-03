@@ -1,5 +1,3 @@
-var teste = 1
-
 let Modal = {
   open() {
     document.querySelector('.modal-overlay').classList.add('active')
@@ -9,24 +7,20 @@ let Modal = {
   },
 }
 
+const Storage = {
+  get() {
+    return JSON.parse(localStorage.getItem('dev.finances:transactions')) || []
+  },
+  set(transactions) {
+    localStorage.setItem(
+      'dev.finances:transactions',
+      JSON.stringify(transactions)
+    )
+  },
+}
+
 const Transaction = {
-  all: [
-    {
-      description: 'Luz',
-      amount: -50000,
-      date: '23/01/2021',
-    },
-    {
-      description: 'website',
-      amount: 500000,
-      date: '23/01/2021',
-    },
-    {
-      description: 'Internet',
-      amount: -20000,
-      date: '23/01/2021',
-    },
-  ],
+  all: Storage.get(),
 
   add(transaction) {
     Transaction.all.push(transaction)
@@ -76,14 +70,16 @@ const DOM = {
     //cria uma tag tr
     const tr = document.createElement('tr')
     // pega a estrutura criada em innerHtmlTransaction e coloca dentro da estrutura tr em forma de html
-    tr.innerHTML = DOM.innerHtmlTransaction(transaction)
+    tr.innerHTML = DOM.innerHtmlTransaction(transaction, index)
+
+    tr.dataset.index = index
 
     //injeta toda a estrutura criada dentro de tr em transactionContainer
     DOM.transactionContainer.appendChild(tr)
   },
 
   // cria uma estrutura puxando dados do transaction
-  innerHtmlTransaction(transaction) {
+  innerHtmlTransaction(transaction, index) {
     const CSSclass = transaction.amount > 0 ? 'income' : 'expense'
 
     const amount = Utils.formatCurrency(transaction.amount)
@@ -94,7 +90,7 @@ const DOM = {
         <td class="${CSSclass}">${amount}</td>
         <td class="date">${transaction.date}</td>
         <td>
-          <img src="./assets/minus.svg" alt="Remover transação">
+          <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
         </td>
       </tr>
     `
@@ -158,7 +154,7 @@ const Form = {
   },
 
   validateFields() {
-    const { description, amount, date } = this.getValues()
+    const { description, amount, date } = Form.getValues()
 
     if (description.trim() === '' || amount.trim() === '' || date.trim === '') {
       throw new Error('Por favor, preencha todos os campos')
@@ -183,30 +179,34 @@ const Form = {
     Transaction.add(transaction)
   },
 
+  clearFields() {
+    Form.description.value = ''
+    Form.amount.value = ''
+    Form.date.value = ''
+  },
+
   submit(event) {
     event.preventDefault()
 
     try {
       Form.validateFields()
-
       const transaction = Form.formatValues()
-
       Form.saveTransaction(transaction)
+      Form.clearFields()
+      Modal.close()
     } catch (err) {
       alert(err.message)
     }
-
-    /* Form.formatData() */
   },
 }
 
 const App = {
   init() {
-    Transaction.all.forEach((transaction) => {
-      DOM.addTransaction(transaction)
-    })
+    Transaction.all.forEach(DOM.addTransaction)
 
     DOM.updateBalance()
+
+    Storage.set(Transaction.all)
   },
   reload() {
     DOM.clearTrasactions()
