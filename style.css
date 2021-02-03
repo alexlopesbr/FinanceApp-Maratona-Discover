@@ -206,6 +206,7 @@ td.description {
 
 td.income {
   color: #12a454;
+  font-weight: bold;
 }
 
 td.expense {
@@ -228,6 +229,8 @@ td.expense {
   visibility: hidden;
 
   background-color: rgba(0, 0, 0, 0.7);
+
+  z-index: 10;
 }
 
 .modal-overlay.active {
