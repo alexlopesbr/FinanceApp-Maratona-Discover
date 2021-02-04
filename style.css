@@ -1,19 +1,92 @@
+/*#page-landing.active {
+  background: linear-gradient(329.54deg, #323238 0%, #3c3c44 100%) no-repeat;
+}*/
+
+.switchTheme {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+/* checkbox */
+
+input[type='checkbox'] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label.changeTheme {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 52px;
+  height: 27px;
+  background: grey;
+  float: right;
+  border-radius: 100px;
+  position: relative;
+}
+
+label.changeTheme::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background-color: #ffd666;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background-color: white;
+}
+
+input:checked + label::after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 45px;
+}
+
 /*  GLOBAL ================================ */
 :root {
+  --background: #2d4a22;
+  --backgroundTwo: #f0f2f5;
+  --bgCard: white;
+  --bgTable: white;
+  --brTbody: white;
   --dark-blue: #363f5f;
   --green: #49aa26;
   --light-green: #3dd705;
-  --red: #e92929;
+  --red: tomato;
+}
+
+.night-mode:root {
+  --background: #152210;
+  --backgroundTwo: #a7a8a9;
+  --bgCard: #3a3939;
+  --bgTable: #242323;
+  --brTbody: #3a3939;
+  --dark-blue: white;
+  --green: #323238;
+  --light-green: #505456;
+  --red: #4a4a52;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: 100ms ease-in-out background;
 }
 
 body {
-  background: #f0f2f5;
+  background: var(--backgroundTwo);
   font-family: 'Poppins', sans-serif;
 }
 
@@ -99,7 +172,7 @@ button:hover {
 
 /* HEADER ================================*/
 header {
-  background: #2d4a22;
+  background: var(--background);
   padding: 2rem 0 10rem;
   text-align: center;
 }
@@ -121,7 +194,7 @@ header {
 
 /* CARDS ================================*/
 .card {
-  background: white;
+  background: var(--bgCard);
   padding: 1.5rem 2rem;
   border-radius: 0.25rem;
 
@@ -178,7 +251,7 @@ table tbody tr td:last-child {
 }
 
 table th {
-  background: white;
+  background: var(--bgTable);
 
   font-weight: normal;
   padding: 1rem 2rem;
@@ -195,7 +268,7 @@ table tbody tr:hover {
 }
 
 table td {
-  background: white;
+  background: var(--brTbody);
 
   padding: 1rem 2rem;
 }
