@@ -206,7 +206,7 @@ const App = {
 
     DOM.updateBalance()
 
-    Storage.set(Transaction.all)
+  Storage.set(Transaction.all)
   },
   reload() {
     DOM.clearTrasactions()
